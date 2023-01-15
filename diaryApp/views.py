@@ -31,13 +31,19 @@ def index(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, "index.html", {
-        "entries": entries,
-        "todays_date": todays_date,
-        "page_obj": page_obj,
-        "month": str_month,
-        
-    })
+    if request.user.is_authenticated:
+        return render(request, "index.html", {
+            "entries": entries,
+            "todays_date": todays_date,
+            "page_obj": page_obj,
+            "month": str_month,
+            
+        })
+    else:
+        return render(request, "login.html")
+
+
+
 
 def login_view(request):
     if request.method == "POST":
