@@ -85,6 +85,7 @@ def register(request):
                 "message": "Username already taken."
             })
         login(request, user)
+        main_entry = Entry.objects.get_or_create(main=True, owner=request.user)
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "register.html")
