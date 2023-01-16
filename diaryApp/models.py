@@ -20,7 +20,7 @@ class Task(models.Model):
 
 class Entry(models.Model):
     main = models.BooleanField(default=False)
-    body = models.CharField(max_length=500, blank=True)
+    body = models.CharField(max_length=500, default="Click edit button at top right of entry to start writing :)")
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owner")
     tasks = models.ManyToManyField(Task, related_name="tasks", blank=True, null=True)
     date = models.CharField(max_length=50, null=True, blank=True)
