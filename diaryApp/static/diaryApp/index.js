@@ -81,10 +81,15 @@ function edit_task(ids) {
     entry_task = ids.split(",");
 
     task_id = entry_task[0];
-
+    console.log(task_id)
+    
     entry_id = entry_task[1];
-
-    const new_task_name = document.getElementById(`task-name-change${task_id}`).value;
+    console.log(entry_id)
+    
+    const new_task_name = document.getElementById(`task-name-change${entry_id}${task_id}`).value;
+    console.log(new_task_name)
+    old_task = document.getElementById(`${task_id},${entry_id}`)
+    console.log(old_task)
     if (new_task_name.length > 25) {
         alert("Cannot be over 25 characters long.")
         return;
@@ -94,7 +99,7 @@ function edit_task(ids) {
     })
     .then(response => response.json())
     .then(task => {
-        document.getElementById(`${task_id}`).innerHTML = task.task
+        old_task.innerHTML = task.task
     })
 }
 
@@ -117,8 +122,8 @@ function add_task(entry_id) {
             <div class="grid-item">
                 <input name="${ entry_task[0].id },${ entry_task[1].id }" onclick="save_task(this.name)" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
                 <label id="${ entry_task[1].id }" class="form-check-label" for="flexSwitchCheckDefault">${ entry_task[1].task }</label>
-                <a href="#exampleModalCentre${ entry_task[1].id }" data-target="#exampleModalCenter${ entry_task[1].id }" role="button" data-toggle="modal"><img  id="edit-task" src="https://icons.veryicon.com/png/o/miscellaneous/linear-small-icon/edit-246.png" height="20px" width="20px" alt=""></a>
-                <img id="remove-task" src="https://cdn3.iconfinder.com/data/icons/softwaredemo/PNG/256x256/DeleteRed.png" width="20px" height="20px" alt="">
+                <a href="#exampleModalCentre${ entry_task[1].id }" data-target="#exampleModalCenter${ entry_task[1].id }" role="button" data-toggle="modal"><img  id="edit-task" src="https://icons.veryicon.com/png/o/miscellaneous/linear-small-icon/edit-246.png" height="40px" width="40px" alt=""></a>
+                <img id="remove-task" src="https://cdn3.iconfinder.com/data/icons/softwaredemo/PNG/256x256/DeleteRed.png" width="40px" height="40px" alt="">
             </div>
                 <!-- Modal -->
             <div class="modal fade" id="exampleModalCenter${ entry_task[1].id }" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

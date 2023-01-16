@@ -213,24 +213,24 @@ def edit_task_name(request, task_id, entry_id, new_task_name):
     completed_tasks = entry.completed_tasks.all()
     # old task
     local_task_id = task_id
+    print(task_id, entry_id, new_task_name )
     old_task = Task.objects.get(pk=local_task_id)
     print(old_task)
-    entry.tasks.remove(old_task)
-    entry.save()
+    
 
     if Task.objects.filter(task=new_task_name).exists():
         task = Task.objects.get(task=new_task_name)
         if old_task in entry.tasks.all():
             entry.tasks.add(task)
-            
+            entry.tasks.remove(old_task)
             entry.save()
-            print("1")
+            
             
         else:
             entry.completed_tasks.add(task)
             entry.completed_tasks.remove(old_task)
             entry.save()
-            print("2")
+            
         return JsonResponse(task.serialize(), safe=False)
     else:
         new_task = Task(
@@ -241,13 +241,13 @@ def edit_task_name(request, task_id, entry_id, new_task_name):
             entry.tasks.add(new_task)
             entry.tasks.remove(old_task)
             entry.save()
-            print("3")
+            
             
         else:
             entry.completed_tasks.add(new_task)
             entry.completed_tasks.remove(old_task)
             entry.save()
-            print("4")
+            
         
         return JsonResponse(new_task.serialize(), safe=False)
 

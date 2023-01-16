@@ -43,7 +43,7 @@
     color: rgb(119, 54, 54);
 }
 .grid-item {
-    height: 40px;
+    font-size: 35px;
 }
 #main-entry-body {
     margin-left: 4%;
@@ -64,7 +64,7 @@
     max-height: 450px;
     overflow: auto;
     font-family: 'Annie Use Your Telescope';
-    font-size: 30px;
+    font-size: 50px;
 
 }
 
@@ -152,7 +152,7 @@ h2 {
 }
 
 .diary-entries {
-    font-size: 20px;
+    font-size: 30px;
     color: rgb(119, 54, 54);
     font-family: 'Brush Script MT', cursive;
     background-color: white;
@@ -184,6 +184,7 @@ h2 {
 #entry-date {
     font-size: 35px;
     margin-top: 0%;
+    margin-bottom: 20px;
 }
 
 .dates {
@@ -226,11 +227,12 @@ h2 {
 }  
 
 .grid {
+    margin-top: 15px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(3, 40px);
+    grid-template-rows: repeat(3, 60px);
     overflow-y: auto;
-    max-height: 120px;
+    max-height: auto;
 }
 
 #fitness-label {
