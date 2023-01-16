@@ -169,6 +169,11 @@ h2 {
     max-height: 80px;
     overflow: hidden;
     transition: all 1s ease;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+.diary-entries::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
 }
 
 .diary-entries.expand {
@@ -243,3 +248,6 @@ h2 {
 #add-task {
     cursor: pointer;
 }
+
+
+
