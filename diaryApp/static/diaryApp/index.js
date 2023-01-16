@@ -1,39 +1,43 @@
 function expand_entry(id) {
-    if (document.getElementsByClassName("diary-entries expand").length === 0) {
-        document.querySelector(".main-box").classList.toggle('shift');
-    }
-   
     document.querySelector(`#${id}`).classList.toggle('expand');
-
-    if (document.getElementsByClassName("diary-entries expand").length === 0) {
-        document.querySelector(".main-box").classList.toggle('shift');
-    }
-    
 }
 
 function edit_entry(id) {
 
     if (document.querySelector(`#entry-${id}`).className === "diary-entries expand") {
         if (document.getElementById(`edit-text${id}`) === null) {
-             const existing_content = document.querySelector(`#entry-body${id}`).textContent;
-             console.log(document.querySelector(`#entry-body${id}`).textContent)
-            console.log(existing_content);
+            const existing_content = document.querySelector(`#entry-body${id}`).textContent;
             document.querySelector(`#entry-body${id}`).innerHTML = 
             `<textarea class="edit-text" id="edit-text${id}">${existing_content.trim()}</textarea>
 
             <button class="btn btn-success" id="submit-edit">Submit</button>
             `
+            const existing_date = document.querySelector(`#entry-date-${id}`).textContent;
+            document.querySelector(`#entry-date-${id}`).innerHTML =`<textarea class="edit-date" id="date-${id}">${existing_date.trim()}</textarea>`
+            
+
             document.querySelector("#submit-edit").addEventListener('click', () => {
+                
+                console.log(document.querySelector(`#date-${id}`).value)
+        
+                
+
                 fetch(`edit_post/${id}`, {
                     method: 'PUT',
                     credentials: 'same-origin',
                     body: JSON.stringify({
-                        body: document.querySelector(`#edit-text${id}`).value
+                        body: document.querySelector(`#edit-text${id}`).value,
+                        date: document.querySelector(`#date-${id}`).value
                     })
                 })
                 .then(response => response.json())
                 .then(entry => {
                     document.querySelector(`#entry-body${id}`).innerHTML = entry.body
+                    document.querySelector(`#entry-date-${id}`).innerHTML = `
+                    <label id="entry-date" onclick="expand_entry('entry-${id}')">&nbsp;&nbsp;&nbsp;&nbsp;${entry.date.trim()}</label>
+                    `
+                    document.querySelector(`#entry-weekday-${id}`).innerHTML = entry.weekday;
+
                 })
             })
 
@@ -60,17 +64,16 @@ function remove_task(ids) {
 
 }
 
-function compose(main_id) {
-    entry_date = document.getElementById('main-entry-date').innerHTML.trim()
-    body = document.getElementById('main-entry-body').innerHTML.trim()
-
-
-    fetch(`compose/${main_id}/${entry_date}/${body}`, {
+function compose() {
+    
+    fetch(`compose`, {
         method: 'PUT'
     })
     setTimeout(function(){
         window.location.reload();
      }, 500);
+
+
 }
 
 function edit_task(ids) {

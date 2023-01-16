@@ -14,8 +14,10 @@ import calendar
 from calendar import monthrange
 # Create your views here.
 
+list_of_months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
 def index(request):
-    entries = Entry.objects.filter(owner=request.user.id).order_by('-id')
+    entries = Entry.objects.filter(owner=request.user.id).order_by('-date_sort')
     
     today = date.today()
     todays_date = today.strftime("%B %d, %Y")
@@ -37,6 +39,7 @@ def index(request):
             "todays_date": todays_date,
             "page_obj": page_obj,
             "month": str_month,
+            
             
         })
     else:
@@ -101,7 +104,31 @@ def register(request):
 def edit_post(request, id):
     entry = Entry.objects.get(pk=id)
     data = json.loads(request.body)
+    
+    
+    
     body = data["body"]
+    date = data["date"]
+    month, day, year = date.replace(',', '').split(' ')
+    i = 0
+    try:
+        for mon in list_of_months:
+            if mon.capitalize().strip() == month:
+                month = i
+            i += 1
+        if month.capitalize().strip() not in list_of_months:
+            month = f"Month Spell Error {day}, {year}"
+    except:
+        pass
+
+    try:
+        dt = datetime(int(year), (month + 1), int(day))
+        weekday = dt.strftime('%A')
+    except TypeError:
+        print("Datetime expects only integers as input, Month was spelt wrong.")
+    entry.date_sort = dt
+    entry.weekday = weekday
+    entry.date = date
     entry.body = body
     entry.save()
     return JsonResponse(entry.serialize(), safe=False)
@@ -155,37 +182,17 @@ def add_task(request, entry_id, task_name):
 
 @login_required
 @csrf_exempt
-def compose(request, main_id, entry_date, body):
+def compose(request):
     today = date.today()
     todays_date = today.strftime("%B %d, %Y")
     weekday = calendar.day_name[today.weekday()]
-
-    if Entry.objects.filter(pk=main_id).exists():
-        main_entry = Entry.objects.get(pk=main_id)
-    else:
-        main_entry = Entry(
-            main = True,
-            date=entry_date
-        )
-        main_entry.save()
     new_entry = Entry(
-        body=body,
-        date=entry_date,
         weekday=weekday,
+        date=todays_date,
         owner=request.user
     )
     new_entry.save()
-    new_entry.tasks.set(main_entry.tasks.all())
-    new_entry.completed_tasks.set(main_entry.completed_tasks.all())
-    new_entry.save()
-
-    main_entry.body = ""
-    for task in main_entry.tasks.all():
-        main_entry.tasks.remove(task)
-    for task in main_entry.completed_tasks.all():
-        main_entry.completed_tasks.remove(task)
-    main_entry.save()
-
+    
     return JsonResponse(new_entry.serialize(), safe=False)
 
 @csrf_exempt

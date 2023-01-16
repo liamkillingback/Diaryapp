@@ -15,7 +15,7 @@ urlpatterns = [
     path('remove/<str:ids>', views.remove_task, name="update_task"),
     path('edit_task_name/<int:task_id>/<int:entry_id>/<str:new_task_name>', views.edit_task_name, name="edit_task_name"),
     path('add_task/<int:entry_id>/<str:task_name>', views.add_task, name="add_task"),
-    path('compose/<str:main_id>/<str:entry_date>/<str:body>', views.compose, name='compose'),
+    path('compose', views.compose, name='compose'),
     path('delete_entry/<int:entry_id>', views.delete_entry, name="delete_entry"),
 
 

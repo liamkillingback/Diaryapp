@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from datetime import datetime, date
 
 # Create your models here.
 class User(AbstractUser):
@@ -25,6 +26,10 @@ class Entry(models.Model):
     date = models.CharField(max_length=50, null=True, blank=True)
     weekday = models.CharField(max_length=50, null=True, blank=True)
     completed_tasks = models.ManyToManyField(Task, related_name="completed_tasks", blank=True)
+    date_sort = models.DateField(default=datetime.today)
+
+    class Meta:
+        ordering = ['-date_sort']
 
     def __str__(self):
         return f"{self.owner.username},{self.date}"
@@ -32,7 +37,9 @@ class Entry(models.Model):
     def serialize(self):
         return {
             "body": self.body,
-            "id": self.id
+            "id": self.id,
+            "date": self.date,
+            "weekday": self.weekday
         }
 
 class CompletedTask(models.Model):
