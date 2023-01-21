@@ -40,7 +40,7 @@
         <div  id="entry-{{ entry.id }}" class="diary-entries">
                 <img onclick="delete_entry('{{entry.id}}')" id="delete-post-img" src="https://img.icons8.com/dotty/512/delete-forever.png" width="45px" height="45px" alt="">
                 <div>
-                    <span class="dates" id="entry-weekday-{{ entry.id }}">{{ entry.weekday }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span onclick="expand_entry(`entry-{{ entry.id }}`)" class="dates" id="entry-weekday-{{ entry.id }}">{{ entry.weekday }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     
                     <span id="entry-date-{{ entry.id }}">
                         <label id="entry-date" onclick="expand_entry(`entry-{{ entry.id }}`)">{{ entry.date }}</label>
