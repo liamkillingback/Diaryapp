@@ -158,7 +158,7 @@ h2 {
     background-color: white;
     margin-left: auto;
     margin-right: auto;
-    width: 45%;
+    width: 52%;
     margin-top: 2%;
     
     border-radius: 50px;
@@ -166,7 +166,7 @@ h2 {
     text-align: center;
     height: 700px;
     
-    max-height: 80px;
+    max-height: 100px;
     overflow: hidden;
     transition: all 1s ease;
     overflow-y: auto;
